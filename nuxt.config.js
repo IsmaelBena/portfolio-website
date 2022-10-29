@@ -15,10 +15,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~/assets/starsBackground/starsBackground.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{src: '~/assets/starsBackground/starsBackground.js', mode: 'client'}],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -45,4 +45,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  routeRules: {    // Static page generated on-demand, revalidates in background
+    '/': { swr: true }
+  }
 }
