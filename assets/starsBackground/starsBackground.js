@@ -188,7 +188,7 @@ function render() {
 
 }
 
-function scrollAnimation(direction) {
+function scrollAnimation(movement) {
   if (direction === "up") {
     let ox = 0,
     oy = 500;
@@ -206,9 +206,31 @@ function scrollAnimation(direction) {
 }
 
 export default ({app}, inject) => {
+
   const toggleZoom = () => {
     zoom = !zoom
     window.console.log('function ran')
   }
+
+  const checkZoom = () => {
+    return zoom
+  }
+
+  /* create diff functions for mobile and pc oy = 10 on pc and 2 on mobile */
+  function scrollUpAnimation() {
+    let oy = -10;
+
+    velocity.ty = velocity.ty + oy / 8 * scale;
+  }
+
+  function scrollDownAnimation() {
+    let oy = 10;
+
+    velocity.ty = velocity.ty + oy / 8 * scale;
+  }
+
+  inject('checkZoom', checkZoom)
   inject('toggleZoom', toggleZoom)
+  inject('scrollUpAnimation', scrollUpAnimation)
+  inject('scrollDownAnimation', scrollDownAnimation)
 }
