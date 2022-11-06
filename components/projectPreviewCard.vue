@@ -36,5 +36,6 @@ export default defineComponent({
 <style scoped>
 #projectPreviewCard {
     background-color: rgba(100, 100, 100, 0.5);
+    width: 280px;
 }
 </style>

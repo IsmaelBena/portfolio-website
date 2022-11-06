@@ -1,28 +1,50 @@
-<template>    
+<template>
     <div class="pageContent">
+        <!--
         <button @click="btnToProjects()">back to home</button>
         <button @click="btnToggleZoom()">Toggle Zoom</button>
-        <div id="pageContentContainer" class="container">
-            <div class="row align-items-center">
+        
+        
+            <div class="row justify-content-around align-items-center">
                 <div id="filterBlock" class="col">
                     <div  class="contentBlock border">
                         <FilterTab />
                     </div>
                 </div>
                 <div class="col">
-                    <div id="projectsBlock" class="contentBlock border">
-
+                    <div id="projectsBlock" class="row justify-content-around align-content-start contentBlock border">
+                        <div v-for="i in 10" class="projectPreviewContainers">
+                            <ProjectPreviewCard />
+                        </div>
                     </div>
+                </div>
+            </div>
+        
+    -->
+    <div id="pageContentContainer" class="container">
+        <div class="row">
+            <div class="col">
+                <div id="filterBlock" class="contentBlock">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="contentBlock">
+
                 </div>
             </div>
         </div>
     </div>
     
+    </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { FilterTab } from '~/components/filterTab'
+import { ProjectPreviewCard } from '~/components/projectPreviewCard'
 
 export default defineComponent({
     setup () {
@@ -52,34 +74,30 @@ export default defineComponent({
 #pageContentContainer {
     overflow-y: scroll;
     position: absolute;
-    top: 50%;
-    height: calc(100% - 75px);
-    transform: translateY(-50%);
+    height: 100%;
     min-width: 100%;
 }
 
 .container {
-    border: solid red;
-    padding: 75px;
+    padding: 10px 20px;
 }
 
 .row {
-    height: 100%;
-    border: solid blue;
+    background-color: rgba(0, 0, 255, 0.5);
 }
 
 .col {
-    min-width: 350px;
+    width: 100%;
+    background-color: rgba(0, 255, 0, 0.5);
 }
 
 .contentBlock {
-    height: 800px;
-    background-color: rgba(50, 50, 50, 0.5);
-    margin: 10px;
+    background-color: rgba(255, 0, 0, 0.5);
 }
 
+
 #filterBlock {
-    max-width: 350px;
+    min-height: 100px;
 }
 
 h1 {
@@ -89,5 +107,10 @@ h1 {
 h2 {
     text-align: justify;
     text-justify: inter-word;
+}
+
+.projectPreviewContainers {
+    width: min-content;
+    padding: 10px 0px;
 }
 </style>

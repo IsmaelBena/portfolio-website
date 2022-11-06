@@ -14,14 +14,18 @@
                 <label class="form-check-label" for="sourceCodeCheckInput">Source code avaiable</label>
             </div>
         </form>
-        <div id="technologiesFilter" class="row">
-
+        <div id="technologiesFilter" class="row justify-content-around">
+            <h2>skills</h2>
+            <div v-for="i in 20" class="col skillCardContainer">
+                <SkillCard />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import { SkillCard } from '~/components/skillCard'
 
 export default defineComponent({
     setup () {
@@ -39,6 +43,7 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     background-color: rgba(75, 75, 75, 0.5);
+    overflow-y: scroll;
 }
 
 .row {
@@ -51,9 +56,12 @@ export default defineComponent({
 
 #technologiesFilter {
     width: 100%;
-    height: 100%;
-    background-color: black;
+    background-color: rgba(80, 80, 80, 0.5);
     box-sizing: border-box;
     margin: 0px;
+}
+
+.skillCardContainer {
+    max-width: min-content;
 }
 </style>
