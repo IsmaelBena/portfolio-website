@@ -1,7 +1,7 @@
 const STAR_COLOR = '#fff';
 const STAR_SIZE = 3;
 const STAR_MIN_SCALE = 0.2;
-const OVERFLOW_THRESHOLD = 50;
+const OVERFLOW_THRESHOLD = 200;
 const STAR_COUNT = (window.innerWidth + window.innerHeight) / 8;
 
 const canvas = document.querySelector('canvas'),
@@ -15,7 +15,7 @@ let stars = [];
 
 let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 };
 
-let zoom = false;
+let zoom = 0;
 
 generate();
 resize();
@@ -131,18 +131,29 @@ function update() {
     star.x += velocity.x * star.z;
     star.y += velocity.y * star.z;
 
-    if (zoom === true) {
+    if (zoom === 1) {
       if (velocity.z < 0.05) {
         velocity.z *= 1.0002
       }
       if (velocity.z > 0.05) {
         velocity.z = 0.05
       }
+    } else if (zoom === -1) {
+      if (velocity.z > -0.05) {
+        velocity.z *= 1.0002
+      }
+      if (velocity.z < -0.05) {
+        velocity.z = -0.05
+      } 
     } else {
       if (velocity.z > 0.0005) {
         velocity.z *= 0.9999
+      } else if (velocity.z < -0.0005) {
+        velocity.z *= 0.9999
       }
       if (velocity.z < 0.0005) {
+        velocity.z = 0.0005
+      } else if (velocity.z > -0.0005) {
         velocity.z = 0.0005
       }
     }
@@ -207,13 +218,19 @@ function scrollAnimation(movement) {
 
 export default ({app}, inject) => {
 
-  const toggleZoom = () => {
-    zoom = !zoom
-    window.console.log('function ran')
-  }
-
   const checkZoom = () => {
     return zoom
+  }
+
+  const setZoom = (newZoom) => {
+    if (newZoom === -1) {
+      velocity.z = -0.0005
+    }
+    if (newZoom === 1) {
+      velocity.z = 0.0005
+    }
+    zoom = Number(newZoom)
+    console.log(zoom)
   }
 
   /* create diff functions for mobile and pc oy = 10 on pc and 2 on mobile */
@@ -230,7 +247,7 @@ export default ({app}, inject) => {
   }
 
   inject('checkZoom', checkZoom)
-  inject('toggleZoom', toggleZoom)
+  inject('setZoom', setZoom)
   inject('scrollUpAnimation', scrollUpAnimation)
   inject('scrollDownAnimation', scrollDownAnimation)
 }

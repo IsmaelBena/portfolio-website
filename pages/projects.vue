@@ -21,22 +21,30 @@
             </div>
         
     -->
-    <div id="pageContentContainer" class="container">
-        <div class="row">
-            <div class="col">
-                <div id="filterBlock" class="contentBlock">
-
+        <div id="pageContentContainer" class="container d-flex flex-column justify-content-start">
+            <div class="row">
+                <div id="filterBlock" class="col contentBlock">
+                    <div class="row justify-content-between">
+                        <div class="col filterHeadingCol">
+                            <h1>Projects</h1>
+                        </div>
+                        <div class="col filterHeadingCol" @click="filterButtonHandler">
+                            <h1>Filter</h1>
+                        </div>
+                    </div>
+                    <FilterTab :filtering="filtering" />
+                </div>
+            </div>
+            <div class="row projectsRow">
+                <div class="col projectsCol">
+                    <div id="projectsBlock" class="row justify-content-around align-content-start contentBlock" :class="filtering ? 'filtering' : 'notFiltering'">
+                        <div v-for="i in 10" class="col projectPreviewContainers">
+                            <ProjectPreviewCard />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="contentBlock">
-
-                </div>
-            </div>
-        </div>
-    </div>
     
     </div>
 </template>
@@ -49,6 +57,11 @@ import { ProjectPreviewCard } from '~/components/projectPreviewCard'
 export default defineComponent({
     setup () {
         return {
+        }
+    },
+    data() {
+        return {
+            filtering: false
         }
     },
     mounted() {
@@ -65,43 +78,101 @@ export default defineComponent({
         },
         btnToggleZoom() {
             this.$toggleZoom()
+        },
+        filterButtonHandler() {
+            if (this.filtering) {
+                this.$setZoom(1)
+                this.filtering = false
+                setTimeout(() => {
+                    if (this.$checkZoom() !== 0) {
+                        this.$setZoom(0)
+                    }
+                }, 1000)
+            } else {
+                this.$setZoom(-1)
+                this.filtering = true
+                setTimeout(() => {
+                    if (this.$checkZoom() !== 0) {
+                        this.$setZoom(0)
+                    }
+                }, 1000)
+            }
         }
     }
 })
 </script>
 
 <style scoped>
-#pageContentContainer {
-    overflow-y: scroll;
+.pageContent {
+    overflow-y: hidden;
     position: absolute;
     height: 100%;
     min-width: 100%;
+}
+
+#pageContentContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    min-width: 80%;
+    overflow-y: hidden;
 }
 
 .container {
     padding: 10px 20px;
 }
 
-.row {
-    background-color: rgba(0, 0, 255, 0.5);
-}
-
 .col {
     width: 100%;
-    background-color: rgba(0, 255, 0, 0.5);
 }
-
-.contentBlock {
-    background-color: rgba(255, 0, 0, 0.5);
-}
-
 
 #filterBlock {
-    min-height: 100px;
+    max-height: min-content;
+}
+
+.projectsRow {
+    padding-top: 20px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
+.projectsCol {
+    height: 100%;
+    overflow: hidden;
+}
+
+#projectsBlock {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.filtering {
+    transition-delay: 0.25s;
+    transition: all 0.75s cubic-bezier(.65,0,.35,1);
+    transform: scale(0.75);
+    opacity: 0.5;
+    overflow-y: hidden !important;
+}
+
+.notFiltering {
+    transition-delay: 0.25s;
+    transition: all 0.75s cubic-bezier(.65,0,.35,1);
+}
+
+@media only screen and (max-width: 810px) {
+    #pageContentContainer {
+        position: absolute;
+        height: 98%;
+        min-width: 98%;
+    }
 }
 
 h1 {
     text-align: center;
+    width: min-content;
 }
 
 h2 {
@@ -110,7 +181,11 @@ h2 {
 }
 
 .projectPreviewContainers {
-    width: min-content;
-    padding: 10px 0px;
+    max-width: min-content;
+    padding: 10px;
+}
+
+.filterHeadingCol {
+    max-width: min-content
 }
 </style>

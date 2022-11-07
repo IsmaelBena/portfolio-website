@@ -128,7 +128,6 @@ export default defineComponent({
 
 .contentBlock {
     min-height: 500px;
-    background-color: rgba(50, 50, 50, 0.5);
     margin: 10px;
 }
 

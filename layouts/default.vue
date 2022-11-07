@@ -18,7 +18,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style global>
 .pageContent {
     overflow-y: scroll;
     height: 100vh;
@@ -36,5 +36,9 @@ h1, h2, h3 {
 * {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+.contentBlock {
+    background-color: rgba(50, 50, 50, 0.5);
 }
 </style>
