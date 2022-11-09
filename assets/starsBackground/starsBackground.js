@@ -234,20 +234,27 @@ export default ({app}, inject) => {
   }
 
   /* create diff functions for mobile and pc oy = 10 on pc and 2 on mobile */
-  function scrollUpAnimation() {
-    let oy = -10;
+  function scrollUpAnimation(speed) {
+    let oy = -speed;
 
     velocity.ty = velocity.ty + oy / 8 * scale;
   }
 
-  function scrollDownAnimation() {
-    let oy = 10;
+  function scrollDownAnimation(speed) {
+    let oy = speed;
 
+    velocity.ty = velocity.ty + oy / 8 * scale;
+  }
+
+  function scrollAnimation(speed) {
+    let oy = speed/4;
+    
     velocity.ty = velocity.ty + oy / 8 * scale;
   }
 
   inject('checkZoom', checkZoom)
   inject('setZoom', setZoom)
+  inject('scrollAnimation', scrollAnimation)
   inject('scrollUpAnimation', scrollUpAnimation)
   inject('scrollDownAnimation', scrollDownAnimation)
 }

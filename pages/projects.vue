@@ -150,7 +150,7 @@ export default defineComponent({
 }
 
 .filtering {
-    transition-delay: 0.25s;
+    transition-delay: 1s;
     transition: all 0.75s cubic-bezier(.65,0,.35,1);
     transform: scale(0.75);
     opacity: 0.5;
@@ -158,7 +158,7 @@ export default defineComponent({
 }
 
 .notFiltering {
-    transition-delay: 0.25s;
+    transition-delay: 1s;
     transition: all 0.75s cubic-bezier(.65,0,.35,1);
 }
 
