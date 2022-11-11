@@ -20,8 +20,9 @@ export default defineComponent({
 
 <style global>
 .pageContent {
-    overflow-y: scroll;
+    overflow: hidden;
     height: 100vh;
+    width: 100vw;
 }
 
 h1, h2, h3 {

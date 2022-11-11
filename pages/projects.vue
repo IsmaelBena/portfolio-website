@@ -66,10 +66,8 @@ export default defineComponent({
     },
     mounted() {
         setTimeout(() => {
-            if (this.$checkZoom() === true) {
-                this.$toggleZoom()
-            }
-        }, 500)    
+            this.$stopScrollingAnimation()
+        }, 5000)    
     },
     methods: {
         btnToProjects() {

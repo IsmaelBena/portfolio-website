@@ -16,6 +16,7 @@ let stars = [];
 let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0005 };
 
 let zoom = 0;
+let scrollAnim = {direction: 'none', targetSpeed: 0, acceleration: 0}
 
 generate();
 resize();
@@ -120,8 +121,38 @@ function step() {
 
 function update() {
 
-  velocity.tx *= 0.96;
-  velocity.ty *= 0.96;
+  if (scrollAnim.direction === 'none') {
+    velocity.tx *= 0.96;
+    velocity.ty *= 0.96;
+  } else if (scrollAnim.direction === 'right') {
+      if (velocity.x > -scrollAnim.targetSpeed) {
+        velocity.tx = velocity.tx + (-scrollAnim.acceleration) / 8 * scale;
+        console.log('Scrolling right')
+    } else {
+        velocity.tx = -scrollAnim.targetSpeed
+    }
+  } else if (scrollAnim.direction === 'left') {
+      if (velocity.x < scrollAnim.targetSpeed) {
+        velocity.tx = velocity.tx + (scrollAnim.acceleration) / 8 * scale;
+        console.log('Scrolling left')
+    } else {
+      velocity.tx = scrollAnim.targetSpeed
+  }
+} else if (scrollAnim.direction === 'up') {
+    if (velocity.y < scrollAnim.targetSpeed) {
+      velocity.ty = velocity.ty + (scrollAnim.acceleration) / 8 * scale;
+      console.log('Scrolling up')
+  } else {
+      velocity.ty = scrollAnim.targetSpeed
+}
+} else if (scrollAnim.direction === 'down') {
+    if (velocity.y > -scrollAnim.targetSpeed) {
+      velocity.ty = velocity.ty + (-scrollAnim.acceleration) / 8 * scale;
+      console.log('Scrolling down')
+  } else {
+      velocity.ty = -scrollAnim.targetSpeed
+}
+} 
 
   velocity.x += (velocity.tx - velocity.x) * 0.8;
   velocity.y += (velocity.ty - velocity.y) * 0.8;
@@ -199,24 +230,21 @@ function render() {
 
 }
 
-function scrollAnimation(movement) {
-  if (direction === "up") {
-    let ox = 0,
-    oy = 500;
-
-    velocity.tx = velocity.tx + ox / 8 * scale;
-    velocity.ty = velocity.ty + oy / 8 * scale;
-  }
-  else if (direction === "down") {
-    let ox = 0,
-    oy = -500;
-
-    velocity.tx = velocity.tx + ox / 8 * scale;
-    velocity.ty = velocity.ty + oy / 8 * scale;
-  }
-}
-
 export default ({app}, inject) => {
+
+  const directionalScrollAnimation = (args) => {
+    scrollAnim = args
+    console.log(scrollAnim)
+    if (scrollAnim.direction === 'right' || scrollAnim.direction === 'left') {
+      velocity.tx = 1;
+    } else if (scrollAnim.direction === 'up' || scrollAnim.direction === 'down') {
+      velocity.ty = 1;
+    }
+  }
+
+  const stopScrollingAnimation = () => {
+    scrollAnim = {direction: 'none', targetSpeed: 0, acceleration: 0}
+  }
 
   const checkZoom = () => {
     return zoom
@@ -254,6 +282,8 @@ export default ({app}, inject) => {
 
   inject('checkZoom', checkZoom)
   inject('setZoom', setZoom)
+  inject('directionalScrollAnimation', directionalScrollAnimation)
+  inject('stopScrollingAnimation', stopScrollingAnimation)
   inject('scrollAnimation', scrollAnimation)
   inject('scrollUpAnimation', scrollUpAnimation)
   inject('scrollDownAnimation', scrollDownAnimation)

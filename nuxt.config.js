@@ -48,5 +48,9 @@ export default {
 
   routeRules: {    // Static page generated on-demand, revalidates in background
     '/': { swr: true }
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 8080 // default: 3000
   }
 }
