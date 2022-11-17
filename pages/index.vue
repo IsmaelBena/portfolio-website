@@ -14,12 +14,16 @@
                     <div class="row">
                         <div class="col">
                             <h1 class="hand" @click="handleMenuClick('skills')">Skills</h1>
-                            <div v-if="activeList[1]" class="carouselContainer">
-                                <div class="carousel">
-                                    <div v-for="i in 15" class="skillContainer">
-                                        <SkillCard />
+                            <div v-if="activeList[1] && !loadingData" class="carouselContainer">
+                                <ScrollButton arrowDir="left" @skillScroll="skillScroll"/>
+                                    <div class="carousel" ref="carousel">
+                                        <div class="spacer"></div>
+                                        <div v-for="tech in techData" :key="tech._id" class="skillContainer">
+                                            <SkillCard :name="tech.name" :imageLocation="tech.image.url" />
+                                        </div>
+                                        <div class="spacer"></div>
                                     </div>
-                                </div>
+                                <ScrollButton arrowDir="right" @skillScroll="skillScroll"/>
                             </div>
                         </div>
                     </div>
@@ -53,6 +57,8 @@
 <script>
 import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
+import { ScrollButton } from '~/components/scrollButton'
+import axios from 'axios'
 
 export default defineComponent({
     setup() {
@@ -66,14 +72,19 @@ export default defineComponent({
             targetOptions: ['about', 'skills', 'socials'],
             currentTarget: -1,
             prevTarget: -1,
+            loadingData: true,
+            techData: []
         };
     },
     mounted() {
-        setTimeout(() => {
-            if (this.$checkZoom() === true) {
-                this.$toggleZoom();
-            }
-        }, 500);
+        axios.get('http://localhost:8000/technologies')
+            .then(techRes => {
+                this.techData = techRes.data
+                setTimeout(() => {
+                    this.$stopScrollingAnimation()
+                }, 100)
+                this.loadingData = false
+            })
     },
     methods: {
         handleProjectsClick() {
@@ -121,10 +132,15 @@ export default defineComponent({
                 console.log('final', this.activeList)
             }
         },
-        handleScroll() {
-            console.log(this.prevScrollTop - this.$refs.pageContent.scrollTop);
-            this.$scrollAnimation(this.prevScrollTop - this.$refs.pageContent.scrollTop);
-            this.prevScrollTop = this.$refs.pageContent.scrollTop;
+        skillScroll(dir) {
+            console.log('scrolling:',dir, this.$refs.carousel.scrollLeft);
+            if (dir === 'right') {
+                this.$refs.carousel.scrollLeft += 200
+            } else {
+                this.$refs.carousel.scrollLeft -= 200
+            }
+            //this.$scrollAnimation(this.prevScrollTop - this.$refs.carousel.scrollLeft);
+            //this.prevScrollTop = this.$refs.pageContent.scrollTop;
         }
     },
     components: { RouterView }
@@ -147,7 +163,7 @@ export default defineComponent({
 
 .row {
     border: 1px solid red;
-    width: min-content;
+    width: max-content;
 }
 
 .col {
@@ -197,6 +213,22 @@ h1:hover {
 .socialsImage {
     aspect-ratio: 1;
     width: 40px;
+    box-sizing: border-box;
+}
+
+.spacer {
+    width: 70px;
+    height: 70px;
+    position: relative;
+}
+
+.carousel {
+    max-height: max-content;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    overflow: scroll;
+    border: 1px solid purple;
+    background-color: rgba(50, 50, 50, 0.5);
 }
 
 @media screen and (max-width: 770px) {
@@ -206,6 +238,10 @@ h1:hover {
 
     .underlineBanner {
         width: 411px;
+    }
+
+    .carousel {
+        max-width: 411px;
     }
 }
 
@@ -217,22 +253,21 @@ h1:hover {
     .underlineBanner {
         width: 308px;
     }
+
+    .carousel {
+        max-width: 308px;
+    }
 }
 
 .carouselContainer {
-    overflow: scroll;
-    max-height: min-content;
-    max-width: 1000px;
-    border: 1px solid purple;
-    white-space: nowrap;
-}
-
-.carousel {
+    position: relative;
+    max-width: 685px;
 }
 
 .skillContainer {
     padding: 0 10px;
     max-width: min-content;
+    height: max-content;
     display: inline-block;
 }
 </style>

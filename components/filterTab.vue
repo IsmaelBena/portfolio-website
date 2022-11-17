@@ -3,22 +3,22 @@
         <div v-if="filtering" id="filterTab">
             <form class="row">
                 <div id="nameFilter" class="form-floating">
-                    <input id="nameInput" type="text" class="form-control" placeholder="Project Name">
+                    <input id="nameInput" type="text" class="form-control" placeholder="Project Name" v-model="filters.name">
                     <label for="nameInput">Project Name</label>
                 </div>
                 <div id="completeFilter" class="form-check form-switch checkBox">
-                    <input id="completeCheckInput" class="form-check-input" type="checkbox" >
+                    <input id="completeCheckInput" class="form-check-input" type="checkbox" v-model="filters.completeOnly">
                     <label class="form-check-label" for="completeCheckInput">Complete?</label>
                 </div>
                 <div id="sourceCodeFilter" class="form-check form-switch checkBox">
-                    <input id="sourceCodeCheckInput" class="form-check-input" type="checkbox" >
+                    <input id="sourceCodeCheckInput" class="form-check-input" type="checkbox" v-model="filters.codeOnly">
                     <label class="form-check-label" for="sourceCodeCheckInput">Source code avaiable</label>
                 </div>
             </form>
             <div id="technologiesFilter" class="row justify-content-around">
                 <h2>skills</h2>
-                <div v-for="i in 20" class="col skillCardContainer">
-                    <SkillCard />
+                <div v-for="card in techData" :key="card._id" class="skillCardContainer" :class="(filters.skills.includes(card._id)) ? 'selected' : ''" @click="toggleSkillFilterValue(card._id)">
+                    <SkillCard :name="card.name" :imageLocation="card.image.fileName" />
                 </div>
             </div>
         </div>
@@ -26,18 +26,47 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, watch } from 'vue'
 import { SkillCard } from '~/components/skillCard'
 
 export default defineComponent({
     props: {
-        filtering: Boolean
+        filtering: Boolean,
+        techData: []
     },
     setup () {
-        return {}
+        return {
+            
+        }
+    },
+    data() {
+        return {
+            filters: {name: "", completeOnly: false, codeOnly: false, skills: []}
+        }
+    },
+    watch: {
+        'filters.name'() {
+            this.$emit('applyName', this.filters)
+        },
+        'filters.completeOnly'() {
+            this.$emit('applyCompleteOnly', this.filters)
+        },
+        'filters.codeOnly'() {
+            this.$emit('applyCodeOnly', this.filters)
+        },
+        'filters.skills'() {
+            this.$emit('applySkills', this.filters)
+        }
     },
     methods: {
-
+        toggleSkillFilterValue(id) {
+            const index = this.filters.skills.indexOf(id)
+            if (index === -1) {
+                this.filters.skills.push(id)
+            } else {
+                this.filters.skills.splice(index, 1)
+            }
+        }
     }
 })
 </script>
@@ -86,5 +115,9 @@ label {
 .filterOptions-leave-to {
     opacity: 0;
     transform: scaleY(0);
+}
+
+.selected {
+    box-shadow: 0px 0px 5px green;
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
-    <div id="scrollButton" class="d-flex flex-column justify-content-center align-content-center" :class="direction" @click="$emit('scroll', destination)">
-        <p v-if="direction === 'down'">{{text}}</p>
-        <img :class="direction + 'Arrow'" src="~/assets/scroll-arrow.png" :alt="'scroll ' + direction">
-        <p v-if="direction === 'up'">{{text}}</p>
+    <div id="scrollButton"  :class="arrowDir" @click="$emit('skillScroll', arrowDir)">
+        <img :class="arrowDir + 'Arrow'" src="~/assets/scroll-arrow.png" :alt="'scroll ' + arrowDir">
     </div>
 </template>
 
@@ -11,9 +9,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
     props: {
-        direction: String,
-        text: String,
-        destination: String
+        arrowDir: String
     },
     setup () {
         return {}
@@ -33,36 +29,45 @@ export default defineComponent({
 }
 
 #scrollButton {
-    position: relative;
+    position: absolute;
     z-index: 100;
-    width: 100px;
     height: min-content;
-    text-align: center;
+    width: 70px;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(50, 50, 50);
+    opacity: 0.75;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.down {
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
+img{
+    aspect-ratio: 1;
+    height: 60px;
+    width: 60px;
 }
 
-.up {
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
+.left {
+    top: 50%;
+    left: 0px;
+    transform: translateY(-50%);
 }
 
-.upArrow {
-    margin-top: 20px;
-    height: 50px;
-    width: 100px;
+.right {
+    top: 50%;
+    right: 0px;
+    transform: translateY(-50%);
 }
 
-.downArrow {
-    margin-bottom: 20px;
-    height: 50px;
-    width: 100px;
-    transform: rotate(180deg);
+.rightArrow {
+    transform: rotate(90deg);
+}
+
+.leftArrow {
+    transform: rotate(270deg);
 }
 
 p {
