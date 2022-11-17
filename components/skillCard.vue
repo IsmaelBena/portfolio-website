@@ -1,6 +1,6 @@
 <template>
     <div id="skillCard" class="card">
-        <img class="card-img-top" :src="imageLocation">
+        <img class="card-img-top" :src="require(`../assets/${fileName}`)">
         <div class="card-body">
             <p class="card-title">{{name}}</p>
         </div>
@@ -13,10 +13,13 @@ import { defineComponent } from 'vue'
 export default defineComponent({
     props: {
         name: "",
-        imageLocation: ""
+        fileName: ""
     },
     setup () {
         return {}
+    },
+    mounted() {
+        console.log(this.fileName)
     },
     methods: {
         handleClick() {
@@ -29,7 +32,7 @@ export default defineComponent({
 <style scoped>
 #skillCard {
     background-color: rgba(50, 50, 50, 0.5);
-    width: 50px;
+    width: 70px;
     align-content: center;
     padding: 0px;
     margin: 5px;
@@ -39,6 +42,7 @@ export default defineComponent({
     padding: 0px;
     margin: 0px;
     text-align: center;
+    white-space: normal;
 }
 
 .card-title {
@@ -48,9 +52,10 @@ export default defineComponent({
 
 img {
     aspect-ratio: 1;
-    width: 50px;
+    width: 60px;
     padding: 0px;
     margin: 0px;
+    margin-top: 3px;
     align-self: center;
 }
 

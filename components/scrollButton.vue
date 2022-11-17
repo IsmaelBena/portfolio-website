@@ -1,5 +1,5 @@
 <template>
-    <div id="scrollButton"  :class="arrowDir" @click="$emit('skillScroll', arrowDir)">
+    <div id="scrollButton" class="hand" :class="arrowDir" @click="$emit('skillScroll', arrowDir)">
         <img :class="arrowDir + 'Arrow'" src="~/assets/scroll-arrow.png" :alt="'scroll ' + arrowDir">
     </div>
 </template>
@@ -13,6 +13,9 @@ export default defineComponent({
     },
     setup () {
         return {}
+    },
+    mounted() {
+        this.$emit('initScrollBtn')
     },
     methods: {
         handleClick() {
@@ -32,7 +35,7 @@ export default defineComponent({
     position: absolute;
     z-index: 100;
     height: min-content;
-    width: 70px;
+    width: 50px;
     margin: 0px;
     padding: 0px;
     background-color: rgb(50, 50, 50);
@@ -42,12 +45,12 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 5px;
 }
 
 img{
-    aspect-ratio: 1;
-    height: 60px;
-    width: 60px;
+    height: 35px;
+    width: 70px;
 }
 
 .left {

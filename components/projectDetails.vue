@@ -25,7 +25,7 @@
             <h3>Technologies</h3>
             <div class="projectTechBox">
                 <div v-for="skill in skillCardsData" :key="skill._id" class="skillCardContainer">
-                    <SkillCard :name="skill.name" :imageLocation="skill.imageLocation" />
+                    <SkillCard :name="skill.name" :fileName="skill.fileName" />
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@ export default defineComponent({
     },
     mounted() {
         for (let t = 0; t < this.projectData.tech.length; t++) {
-            this.skillCardsData.push({name: this.techData.find(data => data._id === this.projectData.tech[t]).name, imageLocation: this.techData.find(data => data._id === this.projectData.tech[t]).image.url})
+            this.skillCardsData.push({name: this.techData.find(data => data._id === this.projectData.tech[t]).name, fileName: this.techData.find(data => data._id === this.projectData.tech[t]).image.fileName})
         }
     }
 })

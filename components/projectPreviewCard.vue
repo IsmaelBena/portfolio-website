@@ -4,7 +4,7 @@
             <h3 class="card-title">{{name}}</h3>
             <div class="techContainer">
                 <div v-for="t in techToLoop" :key="t.id" class="col">
-                    <SkillCard :name="t.name" :imageLocation="t.imageLocation" />
+                    <SkillCard :name="t.name" :fileName="t.fileName" />
                 </div>
                 <p v-if="extraTech">...</p>
             </div>
@@ -30,13 +30,13 @@ export default defineComponent({
         return {
             techToLoop: [],
             extraTech: false,
-            toPush: {name: "none", imaageLocation: "~/assets/jsIcon.png"},
+            toPush: {name: "none", fileName: ''},
             skillCardsData: []
         }
     },
     mounted() {
         for (let t = 0; t < this.tech.length; t++) {
-            this.skillCardsData.push({name: this.techData.find(data => data._id === this.tech[t]).name, imageLocation: this.techData.find(data => data._id === this.tech[t]).image.url})
+            this.skillCardsData.push({name: this.techData.find(data => data._id === this.tech[t]).name, fileName: this.techData.find(data => data._id === this.tech[t]).image.fileName})
         }
         if (this.tech.length < 5)
         {
