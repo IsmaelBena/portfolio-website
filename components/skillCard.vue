@@ -1,8 +1,8 @@
 <template>
     <div id="skillCard" class="card">
-        <img class="card-img-top" src="~/assets/jsIcon.png">
+        <img class="card-img-top" :src="imageLocation">
         <div class="card-body">
-            <p class="card-title">JavaScript</p>
+            <p class="card-title">{{name}}</p>
         </div>
     </div>
 </template>
@@ -11,6 +11,10 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+    props: {
+        name: "",
+        imageLocation: ""
+    },
     setup () {
         return {}
     },

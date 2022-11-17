@@ -1,19 +1,19 @@
 <template>
     <div class="pageContent">
-        <div id="pageContentContainer" class="container d-flex align-items-center">
+        <div id="pageContentContainer" class="container d-flex align-items-center noSelect">
             <div class="row">
                 <div class="col">
                     <div class="row">
-                        <div class="col" @click="handleMenuClick('about')">
-                            <h1>Ismael Benadjal</h1>
+                        <div class="col">
+                            <h1 class="hand" @click="handleMenuClick('about')">Ismael Benadjal</h1>
                             <div v-if="activeList[0]" class="row underlineBanner">
                                 <p>Full-stack Developer, Web Developer, Game Developer, AI ...</p>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" @click="handleMenuClick('skills')">
-                            <h1>Skills</h1>
+                        <div class="col">
+                            <h1 class="hand" @click="handleMenuClick('skills')">Skills</h1>
                             <div v-if="activeList[1]" class="carouselContainer">
                                 <div class="carousel">
                                     <div v-for="i in 15" class="skillContainer">
@@ -23,14 +23,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row hand">
                         <div class="col" @click="handleProjectsClick()">
                             <h1>Projects</h1>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" @click="handleMenuClick('socials')">
-                            <h1>Socials</h1>
+                        <div class="col">
+                            <h1 class="hand" @click="handleMenuClick('socials')">Socials</h1>
+                            <div v-if="activeList[2]" class="row contactLinksContainer">
+                                <a href="https://www.linkedin.com/in/ismael-benadjal/" target="_blank">
+                                    <img class="socialsImage" src="~/assets/linkedin-icon.png">
+                                </a>
+                                <a href="https://github.com/IsmaelBena" target="_blank">
+                                    <img class="socialsImage" src="~/assets/github-icon.png">
+                                </a>
+                                <a href="https://www.linkedin.com/in/ismael-benadjal/" target="_blank">
+                                    <img class="socialsImage" src="~/assets/linkedin-icon.png">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,8 +53,6 @@
 <script>
 import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
-import { projectPreviewCard } from '~/components/projectPreviewCard'
-import { ScrollButton } from '~/components/scrollButton'
 
 export default defineComponent({
     setup() {
@@ -123,7 +132,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 * {
     padding: 0;
     margin: 0;
@@ -139,26 +147,76 @@ export default defineComponent({
 
 .row {
     border: 1px solid red;
-    width: max-content;
+    width: min-content;
 }
 
 .col {
     border: 1px solid blue;
+    width: max-content;
 }
 
 h1 {
-    font-size: 5vh;
+    font-size: 100px;
+    transition: 0.25s;
+    white-space: nowrap;
 }
+
+h1:hover {
+    transition: 0.25s;
+    text-shadow: 0px 0px 3px white;
+}
+
 
 .underlineBanner {
     background-color: white;
     max-height: min-content;
-    width: max-content;
+    width: 685px;
+    overflow-x: hidden;
+    text-overflow: clip;
 }
 
 .underlineBanner > p {
     color: black;
     margin: 0px;
+    white-space: nowrap;
+}
+
+.contactLinksContainer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    padding: 5px;
+}
+
+.contactLinksContainer > a{
+    width: max-content;
+    margin: 0px 5px;
+}
+
+.socialsImage {
+    aspect-ratio: 1;
+    width: 40px;
+}
+
+@media screen and (max-width: 770px) {
+    h1 {
+        font-size: 60px;
+    }
+
+    .underlineBanner {
+        width: 411px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    h1 {
+        font-size: 45px;
+    }
+
+    .underlineBanner {
+        width: 308px;
+    }
 }
 
 .carouselContainer {

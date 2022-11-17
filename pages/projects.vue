@@ -1,35 +1,17 @@
 <template>
     <div class="pageContent">
-        <!--
-        <button @click="btnToProjects()">back to home</button>
-        <button @click="btnToggleZoom()">Toggle Zoom</button>
-        
-        
-            <div class="row justify-content-around align-items-center">
-                <div id="filterBlock" class="col">
-                    <div  class="contentBlock border">
-                        <FilterTab />
-                    </div>
-                </div>
-                <div class="col">
-                    <div id="projectsBlock" class="row justify-content-around align-content-start contentBlock border">
-                        <div v-for="i in 10" class="projectPreviewContainers">
-                            <ProjectPreviewCard />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-    -->
-        <div id="pageContentContainer" class="container d-flex flex-column justify-content-start">
+        <div id="pageContentContainer" class="container d-flex flex-column justify-content-start noSelect">
             <div class="row">
                 <div id="filterBlock" class="col contentBlock">
-                    <div class="row justify-content-between">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col filterHeadingCol hand" @click="homebutton">
+                            <h2>Home</h2>
+                        </div>
                         <div class="col filterHeadingCol">
                             <h1>Projects</h1>
                         </div>
-                        <div class="col filterHeadingCol" @click="filterButtonHandler">
-                            <h1>Filter</h1>
+                        <div class="col filterHeadingCol hand" @click="filterButtonHandler">
+                            <h2>Filter</h2>
                         </div>
                     </div>
                     <FilterTab :filtering="filtering" />
@@ -37,15 +19,17 @@
             </div>
             <div class="row projectsRow">
                 <div class="col projectsCol">
-                    <div id="projectsBlock" class="row justify-content-around align-content-start contentBlock" :class="filtering ? 'filtering' : 'notFiltering'">
-                        <div v-for="i in 10" class="col projectPreviewContainers">
-                            <ProjectPreviewCard />
+                    <div v-if="!loadingData" id="projectsBlock" class="row justify-content-around align-content-start contentBlock" :class="filtering ? 'filtering' : 'notFiltering'">
+                        <div v-for="project in projectsData" :key="project._id" class="col projectPreviewContainers">
+                            <ProjectPreviewCard :name="project.name" :tech="project.tech" :techData="techData" @enableDetails="enableDetails(project._id)" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    
+        <div v-if="showDetails" class="detailsBlock">
+            <ProjectDetails :projectData="projectData" :techData="techData" @disableDetails="disableDetails" />
+        </div>
     </div>
 </template>
 
@@ -53,6 +37,8 @@
 import { defineComponent } from 'vue'
 import { FilterTab } from '~/components/filterTab'
 import { ProjectPreviewCard } from '~/components/projectPreviewCard'
+import { ProjectDetails } from '~/components/projectDetails'
+import axios from 'axios'
 
 export default defineComponent({
     setup () {
@@ -61,39 +47,64 @@ export default defineComponent({
     },
     data() {
         return {
-            filtering: false
+            showDetails: false,
+            loadingData: true,
+            filtering: false,
+            projectsData: [],
+            techData: [],
+            projectData: undefined,
         }
     },
     mounted() {
-        setTimeout(() => {
-            this.$stopScrollingAnimation()
-        }, 5000)    
+        axios.get('http://localhost:8000/projects')
+        .then(projectsRes => {
+            this.projectsData = projectsRes.data
+            axios.get('http://localhost:8000/technologies')
+            .then(techRes => {
+                this.techData = techRes.data
+                setTimeout(() => {
+                    this.$stopScrollingAnimation()
+                }, 100)
+                console.log('projects data: ', this.projectsData)
+                console.log('tech data: ', this.techData)
+                this.loadingData = false
+            })
+        })
     },
     methods: {
-        btnToProjects() {
-            this.$toggleZoom()
+        filterButtonHandler() {
+            if (!this.showDetails) {
+                if (this.filtering) {
+                    this.$setZoom(1)
+                    this.filtering = false
+                    setTimeout(() => {
+                        if (this.$checkZoom() !== 0) {
+                            this.$setZoom(0)
+                        }
+                    }, 1000)
+                } else {
+                    this.$setZoom(-1)
+                    this.filtering = true
+                    setTimeout(() => {
+                        if (this.$checkZoom() !== 0) {
+                            this.$setZoom(0)
+                        }
+                    }, 1000)
+                }
+            }
+        },
+        homebutton() {
             this.$router.push('/')
         },
-        btnToggleZoom() {
-            this.$toggleZoom()
+        disableDetails() {
+            this.showDetails = false;
         },
-        filterButtonHandler() {
-            if (this.filtering) {
-                this.$setZoom(1)
-                this.filtering = false
-                setTimeout(() => {
-                    if (this.$checkZoom() !== 0) {
-                        this.$setZoom(0)
-                    }
-                }, 1000)
-            } else {
-                this.$setZoom(-1)
-                this.filtering = true
-                setTimeout(() => {
-                    if (this.$checkZoom() !== 0) {
-                        this.$setZoom(0)
-                    }
-                }, 1000)
+        enableDetails(target) {
+            console.log(target)
+            if (!this.showDetails && !this.filtering)  {
+                console.log(target)
+                this.projectData = this.projectsData.find(project => project._id === target)
+                this.showDetails = true
             }
         }
     }
@@ -147,6 +158,11 @@ export default defineComponent({
     height: 100%;
 }
 
+.projectPreviewContainers {
+    max-width: min-content;
+    padding: 10px;
+}
+
 .filtering {
     transition-delay: 1s;
     transition: all 0.75s cubic-bezier(.65,0,.35,1);
@@ -178,12 +194,8 @@ h2 {
     text-justify: inter-word;
 }
 
-.projectPreviewContainers {
-    max-width: min-content;
-    padding: 10px;
-}
-
 .filterHeadingCol {
     max-width: min-content
 }
+
 </style>
