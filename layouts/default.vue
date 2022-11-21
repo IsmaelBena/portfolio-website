@@ -61,4 +61,10 @@ h1, h2, h3 {
 .hand:hover{
     cursor: pointer;
 }
+
+.default-style {
+    background-color: rgba(50, 50, 50, 0.5);
+    border: 3px solid rgba(50, 50, 50, 0.9);
+    border-radius: 5px;
+}
 </style>

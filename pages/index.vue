@@ -1,13 +1,13 @@
 <template>
     <div class="pageContent">
-        <div id="pageContentContainer" class="container d-flex align-items-center noSelect">
+        <div class="pageContentContainer container d-flex align-items-center noSelect" :class="hidden ? 'hidden' : ''">
             <div class="row">
                 <div class="col">
                     <div class="row">
                         <div class="col">
                             <h1>Ismael Benadjal</h1>
                             <div class="row underlineBanner">
-                                <p>Full-stack Developer, Web Developer, Game Developer, AI ...</p>
+                                <p>Full-Stack Development, Front-End Development, Back-End Development, Game Development, Artifical Intelligence</p>
                             </div>
                         </div>
                     </div>
@@ -64,24 +64,29 @@ export default defineComponent({
             activeOption: '',
             loadingData: true,
             techData: [],
-            showScrollButton: [false, true]
+            showScrollButton: [false, true],
+            hidden: true
         };
     },
     mounted() {
-        axios.get('http://localhost:8000/technologies')
+        axios.get('https://13.41.80.68:8000/technologies')
             .then(techRes => {
                 this.techData = techRes.data
                 setTimeout(() => {
                     this.$stopScrollingAnimation()
                 }, 100)
                 this.loadingData = false
+                this.hidden = false
                 console.log(techRes.data)
             })
     },
     methods: {
         handleProjectsClick() {
-            this.$directionalScrollAnimation({direction: 'right', targetSpeed: 150, acceleration: 15})
-            this.$router.push('/projects')
+            this.$directionalScrollAnimation({direction: 'right', targetSpeed: 50, acceleration: 15})
+            this.hidden = true
+            setTimeout(() => {
+                this.$router.push('/projects')
+            }, 300)
         },
         handleMenuClick(name) {
             if (name === 'skills') {
@@ -158,12 +163,20 @@ export default defineComponent({
     margin: 0;
 }
 
-#pageContentContainer {
+.pageContentContainer {
     overflow: hidden;
     position: absolute;
     top: 50%;
     left: 5%;
+    opacity: 1;
     transform: translateY(-50%);
+    transition: transform 0.5s, opacity 0.5s ease-in;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s, opacity 0.5s ease-in;
 }
 
 .row {
@@ -330,7 +343,7 @@ h1 {
 }
 
 .skillContainer {
-    padding: 0 5px;
+    padding: 0 2px;
     max-width: min-content;
     height: max-content;
     display: inline-block;

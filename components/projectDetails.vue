@@ -33,7 +33,7 @@
             <h3>Project Links</h3>
             <div class="projectLinksBox area">
                 <div v-for="i in projectData.links" :key="i.url" class="linkContainer">
-                    <LinkButton :url="i.url" :linkType="i.linkType" colour="red"/>
+                    <LinkButton :url="i.url" :linkType ="i.linkType"/>
                 </div>
             </div>
         </div>            
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, set } from 'vue'
 import { SkillCard } from '~/components/skillCard'
 import { LinkButton } from '~/components/linkButton'
 
@@ -63,13 +63,14 @@ export default defineComponent({
             this.skillCardsData.push({name: this.techData.find(data => data._id === this.projectData.tech[t]).name, fileName: this.techData.find(data => data._id === this.projectData.tech[t]).image.fileName})
         }
     }
+        
 })
 </script>
 
 <style scoped>
 #projectDetails {
-    background-color: rgba(50, 50, 50, 0.98);
-    border: 2px solid white;
+    background-color: rgba(50, 50, 50, 0.9);
+    border: 3px solid rgba(150, 150, 150, 0.9);
     border-radius: 5px;
     min-width: 50%;
     width: 500px;
@@ -101,6 +102,8 @@ h1, h2, h3{
 .closeBtnDiv {
     background-color: red;
     border-bottom-left-radius: 5px;
+    border-top-right-radius: 2px;
+    border: 1px solid rgba(150, 150, 150, 0.9);
     width: 30px;
     height: 30px;
     display: flex;
@@ -110,6 +113,7 @@ h1, h2, h3{
     position: absolute;
     top: 0;
     right: 0;
+    background-clip: padding-box;
 }
 
 
@@ -136,21 +140,26 @@ h1, h2, h3{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: rgba(150, 150, 150, 0.3);
+    padding: 0px 5px 3px 5px;
+    border-radius: 5px;
 }
 
 .projectDescriptionArea {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 2px solid black;
+    border: 2px solid rgba(150, 150, 150, 0.1);
+    border-radius: 5px;
     text-align: center;
+    background-color: rgba(25, 25, 25, 0.1);
 }
 
 .projectDescriptionBox {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    border-top: 2px solid black;
+    border-top: 2px solid rgba(150, 150, 150, 0.1);
     padding-top: 5px;
     text-align: left;
 }
@@ -165,42 +174,49 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 2px solid black;
+    border: 2px solid rgba(150, 150, 150, 0.1);
+    border-radius: 5px;
     text-align: center;
+    background-color: rgba(25, 25, 25, 0.1);
 }
 
 .projectTechBox {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border-top: 2px solid black;
+    border-top: 2px solid rgba(150, 150, 150, 0.1);
 }
 
 .projectLinksArea{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 2px solid black;
+    border: 2px solid rgba(150, 150, 150, 0.1);
+    border-radius: 5px;
     text-align: center;
+    background-color: rgba(25, 25, 25, 0.1);
 }
 
 .projectLinksBox {
     height: max-content;
-    border-top: 2px solid black;
+    border-top: 2px solid rgba(150, 150, 150, 0.1);
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding-top: 5px;
 }
 
 .linkContainer {
     height: max-content;
     width: max-content;
-    border: 1px solid yellow;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 10px;
     overflow: hidden;
+}
+
+h3 {
+    padding: 5px 0px;
 }
 
 </style>
