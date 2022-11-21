@@ -69,7 +69,7 @@ export default defineComponent({
         };
     },
     mounted() {
-        axios.get('https://13.41.80.68:8000/technologies')
+        axios.get('http://13.41.80.68:8000/technologies')
             .then(techRes => {
                 this.techData = techRes.data
                 setTimeout(() => {
