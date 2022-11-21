@@ -50,7 +50,7 @@ export default {
     '/': { swr: true }
   },
   server: {
-    host: '0.0.0.0',
+    host: 'localhost',
     port: 8080 // default: 3000
   }
 }
