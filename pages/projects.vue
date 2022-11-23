@@ -59,12 +59,12 @@ export default defineComponent({
         }
     },
     mounted() {
-        axios.get('http://13.41.80.68:8000/projects')
+        axios.get('https://ismaelbena-api.online/projects')
         .then(projectsRes => {
             this.projectsData = projectsRes.data
             this.filteredProjectsData = projectsRes.data
             console.log(projectsRes.data)
-            axios.get('http://13.41.80.68:8000/technologies')
+            axios.get('https://ismaelbena-api.online/technologies')
             .then(techRes => {
                 this.techData = techRes.data
                 setTimeout(() => {

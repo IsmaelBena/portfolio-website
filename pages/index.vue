@@ -69,7 +69,7 @@ export default defineComponent({
         };
     },
     mounted() {
-        axios.get('http://13.41.80.68:8000/technologies')
+        axios.get('https://ismaelbena-api.online/technologies')
             .then(techRes => {
                 this.techData = techRes.data
                 setTimeout(() => {
