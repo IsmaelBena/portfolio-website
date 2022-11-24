@@ -77,7 +77,6 @@ export default defineComponent({
                 }, 100)
                 this.loadingData = false
                 this.hidden = false
-                console.log(techRes.data)
             })
     },
     methods: {

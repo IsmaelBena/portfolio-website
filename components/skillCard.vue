@@ -18,9 +18,6 @@ export default defineComponent({
     setup () {
         return {}
     },
-    mounted() {
-        console.log(this.fileName)
-    },
     methods: {
         handleClick() {
             

@@ -81,6 +81,7 @@ export default defineComponent({
     box-sizing: border-box;
     left: 10px;
     height: min-content;
+    max-height: 90%;
     width: calc(100% - 20px);
     background-color: rgba(50, 50, 50, 0.9);
     transform-origin: top;

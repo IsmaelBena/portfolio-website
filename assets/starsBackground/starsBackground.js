@@ -127,28 +127,24 @@ function update() {
   } else if (scrollAnim.direction === 'right') {
       if (velocity.x > -scrollAnim.targetSpeed) {
         velocity.tx = velocity.tx + (-scrollAnim.acceleration) / 8 * scale;
-        console.log('Scrolling right')
     } else {
         velocity.tx = -scrollAnim.targetSpeed
     }
   } else if (scrollAnim.direction === 'left') {
       if (velocity.x < scrollAnim.targetSpeed) {
         velocity.tx = velocity.tx + (scrollAnim.acceleration) / 8 * scale;
-        console.log('Scrolling left')
     } else {
       velocity.tx = scrollAnim.targetSpeed
   }
 } else if (scrollAnim.direction === 'up') {
     if (velocity.y < scrollAnim.targetSpeed) {
       velocity.ty = velocity.ty + (scrollAnim.acceleration) / 8 * scale;
-      console.log('Scrolling up')
   } else {
       velocity.ty = scrollAnim.targetSpeed
 }
 } else if (scrollAnim.direction === 'down') {
     if (velocity.y > -scrollAnim.targetSpeed) {
       velocity.ty = velocity.ty + (-scrollAnim.acceleration) / 8 * scale;
-      console.log('Scrolling down')
   } else {
       velocity.ty = -scrollAnim.targetSpeed
 }
@@ -234,7 +230,6 @@ export default ({app}, inject) => {
 
   const directionalScrollAnimation = (args) => {
     scrollAnim = args
-    console.log(scrollAnim)
     if (scrollAnim.direction === 'right' || scrollAnim.direction === 'left') {
       velocity.tx = 1;
     } else if (scrollAnim.direction === 'up' || scrollAnim.direction === 'down') {
@@ -258,7 +253,6 @@ export default ({app}, inject) => {
       velocity.z = 0.0005
     }
     zoom = Number(newZoom)
-    console.log(zoom)
   }
 
   /* create diff functions for mobile and pc oy = 10 on pc and 2 on mobile */

@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'portfolio-website',
+    title: 'Ismael Benadjal',
     htmlAttrs: {
       lang: 'en',
     },
@@ -9,9 +9,12 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { hid: "author", name: "author", content: "Ismael Benadjal"},
+      { hid: "description", name: "description", content: "Portfolio Website showcasing different project I have worked on and displaying my techincal skills."},
+      { hid: "keywords", name: "keywords", content: "Ismael, Benadjal, Ismael Benadjal, Computer Science, Programming, Programmer, Software Development, Portfolio, Projects"}
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

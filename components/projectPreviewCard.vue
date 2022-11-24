@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { stringLiteral } from '@babel/types';
 import { defineComponent } from 'vue'
 import { SkillCard } from '~/components/skillCard'
 

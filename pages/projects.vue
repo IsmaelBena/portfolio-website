@@ -3,7 +3,7 @@
         <div class="pageContentContainer container d-flex flex-column justify-content-start noSelect" :class="managePageState()">
             <div class="row default-style">
                 <div id="filterBlock" class="col contentBlock">
-                    <div class="row justify-content-between align-items-center">
+                    <div class="row justify-content-between align-items-center filterRow">
                         <div class="col filterHeadingCol headerButtons hand" @click="handleHomeClick">
                             <h2>Home</h2>
                         </div>
@@ -63,15 +63,12 @@ export default defineComponent({
         .then(projectsRes => {
             this.projectsData = projectsRes.data
             this.filteredProjectsData = projectsRes.data
-            console.log(projectsRes.data)
             axios.get('https://ismaelbena-api.online/technologies')
             .then(techRes => {
                 this.techData = techRes.data
                 setTimeout(() => {
                     this.$stopScrollingAnimation()
                 }, 100)
-                console.log('projects data: ', this.projectsData)
-                console.log('tech data: ', this.techData)
                 this.loadingData = false
             })
         })
@@ -108,28 +105,20 @@ export default defineComponent({
         disableDetails() {
             this.showDetails = false;
             this.showDetailsAnim = false;
-            console.log('disable details')
         },
         enableDetails(target) {
-            console.log(target)
             if (!this.showDetails && !this.filtering)  {
-                console.log(target)
                 this.projectData = this.projectsData.find(project => project._id === target)
                 this.showDetails = true
                 setTimeout(() => {
                     this.showDetailsAnim = true
                 }, 100)
             }
-            console.log('show details')
-            console.log(this.showDetails)
         },
         applyName(filters) {
-            console.log('name change called')
             this.filteredProjectsData = this.projectsData.filter(project => {
                 return project.name.toLowerCase().includes(filters.name.toLowerCase())
             })
-            
-            console.log('filtered name after skill: ',filters.name , this.filteredProjectsData)
             if (filters.completeOnly) {
                 this.filteredProjectsData = this.filteredProjectsData.filter(project => {
                     return project.status.toLowerCase() === "complete"
@@ -147,10 +136,8 @@ export default defineComponent({
                     return filters.skills.every(fskill => project.tech.includes(fskill));
                 })
             }
-            console.log('filtered skill aftername after skill: ', filters.name , this.filteredProjectsData)
         },
         applyCompleteOnly(filters) {
-            console.log('complete change called')
             if (filters.completeOnly) {
                 this.filteredProjectsData = this.projectsData.filter(project => {
                     return project.status.toLowerCase() === "complete"
@@ -175,7 +162,6 @@ export default defineComponent({
             }
         },
         applyCodeOnly(filters) {
-            console.log('code change called')
             if (filters.codeOnly) {
                 this.filteredProjectsData = this.projectsData.filter(project => {
                     return project.links.indexOf(link => {
@@ -200,12 +186,10 @@ export default defineComponent({
             }
         },
         applySkills(filters) {
-            console.log('skills change called')
             if (filters.skills.length > 0) {
                 this.filteredProjectsData = this.projectsData.filter(project => {
                     return filters.skills.every(fskill => project.tech.includes(fskill));
                 })
-                console.log('filtered skills: ', this.filteredProjectsData)
             } else {
                 this.filteredProjectsData = this.projectsData
             }
@@ -259,6 +243,18 @@ export default defineComponent({
     height: 80%;
     min-width: 80%;
     overflow-y: hidden;
+}
+
+@media screen and (max-width: 770px) {
+    .pageContentContainer {
+        height: 90%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .pageContentContainer {
+        height: 95%;
+    }
 }
 
 .hidden {
@@ -373,17 +369,23 @@ h2 {
     z-index: 10;
 }
 
+.filterRow {
+    height: 100%;
+}
+
 .projectsTitle {
     max-width: min-content;
 }
 .headerButtons {
     max-width: max-content;
     background-color: rgba(100, 100, 100, 0.5);
-    height: 56px;
+    height: 100%;
     display: inherit;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
+    padding-top: 2px;
+    margin: 0px;
 }
 
 .detailsVisible {

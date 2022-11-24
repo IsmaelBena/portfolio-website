@@ -143,6 +143,7 @@ h1, h2, h3{
     background-color: rgba(150, 150, 150, 0.3);
     padding: 0px 5px 3px 5px;
     border-radius: 5px;
+    margin: 3px;
 }
 
 .projectDescriptionArea {
