@@ -1,7 +1,7 @@
 <template>
     <Transition name="filterOptions">
         <div v-if="filtering" id="filterTab">
-            <form class="row">
+            <form class="row" @submit.prevent>
                 <div id="nameFilter" class="form-floating">
                     <input id="nameInput" type="text" class="form-control" placeholder="Project Name" v-model="filters.name">
                     <label for="nameInput">Project Name</label>
