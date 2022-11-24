@@ -352,6 +352,7 @@ export default defineComponent({
 }
 
 h1 {
+    margin-top: 0.2rem;
     text-align: center;
     width: min-content;
     text-shadow: 0px 0px 3px white;
