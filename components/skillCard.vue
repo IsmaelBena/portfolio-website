@@ -32,7 +32,7 @@ export default defineComponent({
     width: 70px;
     align-content: center;
     padding: 0px;
-    margin: 5px;
+    margin: 0px;
 }
 
 .card-body {

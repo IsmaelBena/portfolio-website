@@ -154,10 +154,11 @@ form {
 
 .skillCardContainers {
     padding: 0px;
-    margin: 0px;
+    margin: 5px;
     justify-self: center;
     align-self: center;
-    max-width: 70px;
+    max-width: min-content;
+    max-height: min-content;
 }
 
 .filterOptions-enter-active,
