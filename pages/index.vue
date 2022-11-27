@@ -342,7 +342,7 @@ h1 {
 }
 
 .skillContainer {
-    padding: 0 2px;
+    padding: 3px 5px;
     max-width: min-content;
     height: max-content;
     display: inline-block;
