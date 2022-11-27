@@ -220,4 +220,11 @@ h3 {
     padding: 5px 0px;
 }
 
+.skillCardContainer {
+    margin: 5px;
+    padding: 0px;
+    width: max-content;
+    height: max-content;
+}
+
 </style>

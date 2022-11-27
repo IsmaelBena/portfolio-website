@@ -79,7 +79,7 @@ h3 {
 .techContainers, .col{
     width: max-content;
     height: max-content;
-    padding: 0px 4px;
+    padding: 0px 8px;
 }
 
 </style>
