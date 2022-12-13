@@ -132,8 +132,10 @@ h1, h2, h3{
 }
 
 .projectNameBox{
-    width: max-content;
+    width: 100%;
     height: max-content;
+    overflow-wrap: normal;
+    text-align: center;
 }
 
 .projectStatusBox{
@@ -144,6 +146,7 @@ h1, h2, h3{
     padding: 0px 5px 3px 5px;
     border-radius: 5px;
     margin: 3px;
+    margin-top: 6px;
 }
 
 .projectDescriptionArea {
